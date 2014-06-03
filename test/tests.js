@@ -17,7 +17,7 @@ describe('createNewPage()', function() {
 	it('creates a new page from two pages', function(done) {
 		var defaultFile = path.join(__dirname,'fixtures/test-site/layouts/default.html');
 		var contentFile = path.join(__dirname,'fixtures/test-site/pages/home.html');
- 		var outputFile = path.join(__dirname,'/tmp/home.html'); // TODO: come back and fix
+ 		var outputFile = path.join(__dirname,'/fixtures/test-site/output-pages/home.html'); 
  		var expectedFile = path.join(__dirname,'expected/test-site/home.html');
 
  		lib.createNewPage (defaultFile, contentFile, outputFile, function(err) {

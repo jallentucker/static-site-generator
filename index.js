@@ -16,14 +16,25 @@ var readAFile = module.exports.readAFile = function(file, cb) {
 	});
 };
 
+/**
+ * Reads in two files to a string,
+ * then it creates a new string from two strings and writes to a new file
+ *
+ * @function
+ * @param {file} file1 - Descriptive sentence.
+ * @param {file} file2 - Descriptive sentence.
+ * @param {file} file3 - Descriptive sentence.
+ * @param {call-back} cb -
+ * @param {}  - .
+ */
 module.exports.createNewPage = function(file1, file2, file3, cb) {
 
 	readAFile(file1, function(err, defaultString) {
 		readAFile(file2, function(err, contentString) {
 		 	var outputString = defaultString.replace('{{ content }}', contentString);
-			fs.writeFile(file3, outputString, function(err) {
-				cb(err);
-			});
+				fs.writeFile(file3, outputString, function(err) {
+					cb(err);
+				});
 	  });
 	});
 };
