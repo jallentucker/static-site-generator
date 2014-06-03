@@ -7,6 +7,7 @@ describe('readAFile()', function() {
 	it('returns the contents of a file', function(done) {
 		var siteFile = path.join(__dirname,'fixtures/testFile.txt');
 		lib.readAFile(siteFile, function (err, processedString) {
+			if (err) { return cb(err); }
 			expect(processedString).to.eql('My name is Joe.');
 			done();
 		});
@@ -20,18 +21,16 @@ describe('createNewPage()', function() {
  		var outputFile = path.join(__dirname,'/fixtures/test-site/output-pages/home.html'); 
  		var expectedFile = path.join(__dirname,'expected/test-site/home.html');
 
- 		lib.createNewPage (defaultFile, contentFile, outputFile, function(err) {
- 			lib.readAFile (outputFile, function (err, outputFileContents) {
- 				lib.readAFile (expectedFile, function (err, expectedFileContents) {
+ 		lib.createNewPage (defaultFile, contentFile, outputFile, function(err1) {
+ 			if (err1) { return cb(err1); }
+ 			lib.readAFile (outputFile, function (err2, outputFileContents) {
+ 				if (err2) { return cb(err2); }
+ 				lib.readAFile (expectedFile, function (err3, expectedFileContents) {
+ 					if (err3) { return cb(err3); }
  					expect(outputFileContents).to.eql(expectedFileContents);
  					done();
  				});
  			});
-
  		});
-
-		// var newString = defaultFile.replace ()
-
-		// given default.html and home.html - we expect it to.eql the contents of expected/test-site/home.html
 	});
 });
