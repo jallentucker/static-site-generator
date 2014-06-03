@@ -15,6 +15,6 @@ describe('readAFile()', function(done) {
 
 describe('createNewPage()', function() {
 	it('creates a new page from two pages', function() {
-		
+		// given default.html and home.html - we expect it to.eql the contents of expected/test-site/home.html
 	});
 });
