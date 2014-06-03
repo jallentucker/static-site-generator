@@ -16,3 +16,7 @@ module.exports.readAFile = function(file, cb) {
 	});
 };
 
+module.exports.createNewPage = function() {
+
+
+};
