@@ -12,3 +12,9 @@ describe('readAFile()', function(done) {
 		});
 	});
 });
+
+describe('createNewPage()', function() {
+	it('creates a new page from two pages', function() {
+		
+	});
+});
