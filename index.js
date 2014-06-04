@@ -56,22 +56,18 @@ var createNewPage = module.exports.createNewPage = function(file1, file2, file3,
  * with one arg, `err`, an error.
  */
 module.exports.createSite = function(templatePath, contentFiles, outputDir, cb) {
-	// createNewPage(file1, file2, file3, function(err) {
-	// 	if (err) { return cb(err); }
-	// 	// console.log(defaultString);
-	// 	createNewPage(file4, file5, file6, function(err) {
-	// 		cb(err);
-	// 	});
-	// });
+	var counter = 0;
 	contentFiles.forEach(function(file) {
 		var outputFile = path.join(outputDir, path.basename(file));
 		console.log('templatePath: %s', templatePath);
 		console.log('file: %s', file);
 		console.log('outputDir: %s', outputDir);
 		console.log('outputFile: %s', outputFile);
-		createNewPage(templatePath, file, outputFile, function(err) {
+		counter += 1;
+		if (counter === contentFiles.length) {createNewPage(templatePath, file, outputFile, function(err) {
 			cb(err);
 		});
 		console.log(file);
+		}
 	});
 };
