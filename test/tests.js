@@ -18,7 +18,7 @@ describe('createNewPage()', function() {
 	it('creates a new page from two pages', function(done) {
 		var defaultFile = path.join(__dirname,'fixtures/test-site/layouts/default.html');
 		var contentFile = path.join(__dirname,'fixtures/test-site/pages/home.html');
- 		var outputFile = path.join(__dirname,'tmp/home.html'); // TODO: use real tmp directory (and fot other tests)
+ 		var outputFile = path.join(__dirname,'tmp/home.html'); // TODO: use real tmp directory (and for other tests)
  		var expectedFile = path.join(__dirname,'expected/test-site/home.html');
 
  		lib.createNewPage (defaultFile, contentFile, outputFile, function(err1) {
@@ -47,7 +47,8 @@ describe('createSite()', function() {
  		var outputAboutFile = path.join(__dirname,'tmp/about.html');
  		var expectedAboutFile = path.join(__dirname,'expected/test-site/about.html'); 
 
- 		lib.createSite(/*more args here*/ function(err1) {
+ 		lib.createSite(defaultFile, contentHomeFile, outputHomeFile, defaultAboutFile,
+ 		contentAboutFile, outputAboutFile, function(err1) {
  			lib.readAFile (outputHomeFile, function (err2, outputFileContents) {
  				if (err2) { throw err2; }
  				lib.readAFile (expectedHomeFile, function (err3, expectedFileContents) {
@@ -63,28 +64,6 @@ describe('createSite()', function() {
 		 			});
 				});
 			});
- 		});
-
- 		// lib.createNewPage (defaultFile, contentHomeFile, outputHomeFile, function(err1) {
- 		// 	if (err1) { return cb(err1); }
- 		// 	lib.readAFile (outputHomeFile, function (err2, outputFileContents) {
- 		// 		if (err2) { return cb(err2); }
- 		// 		lib.readAFile (expectedHomeFile, function (err3, expectedFileContents) {
-			// 		if (err3) { return cb(err3); }
- 		// 			lib.createNewPage (defaultAboutFile, contentAboutFile, outputAboutFile, function(err4) {
-			//  			if (err4) { return cb(err4); }
-			//  			lib.readAFile (outputAboutFile, function (err5, outputAboutFileContents) {
-			//  				if (err5) { return cb(err5); }
-			//  				lib.readAFile (expectedAboutFile, function (err6, expectedAboutFileContents) {
-			//  					if (err6) { return cb(err6); }
-			//  					expect([outputFileContents, outputAboutFileContents])
-			//  					.to.eql([expectedFileContents, expectedAboutFileContents]);
-			//  					done();
-			//  				});
-			//  			});
-			//  		});
-			// 	});
-			// });
  		});
 	});
 });
