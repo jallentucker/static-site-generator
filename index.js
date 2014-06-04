@@ -63,11 +63,11 @@ module.exports.createSite = function(templatePath, contentFiles, outputDir, cb) 
 		console.log('file: %s', file);
 		console.log('outputDir: %s', outputDir);
 		console.log('outputFile: %s', outputFile);
-		counter += 1;
-		if (counter === contentFiles.length) {createNewPage(templatePath, file, outputFile, function(err) {
-			cb(err);
+		createNewPage(templatePath, file, outputFile, function(err) {
+			counter += 1;
+			if (counter === contentFiles.length) {
+				cb(err);
+			}
 		});
-		console.log(file);
-		}
 	});
 };
