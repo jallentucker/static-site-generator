@@ -18,7 +18,8 @@ describe('createNewPage()', function() {
 	it('creates a new page from two pages', function(done) {
 		var defaultFile = path.join(__dirname,'fixtures/test-site/layouts/default.html');
 		var contentFile = path.join(__dirname,'fixtures/test-site/pages/home.html');
- 		var outputFile = path.join(__dirname,'tmp/home.html'); // TODO: use real tmp directory (and for other tests)
+		// TODO: use real tmp directory (and for other tests)
+ 		var outputFile = path.join(__dirname,'tmp/home.html');
  		var expectedFile = path.join(__dirname,'expected/test-site/home.html');
 
  		lib.createNewPage (defaultFile, contentFile, outputFile, function(err1) {
@@ -36,19 +37,19 @@ describe('createNewPage()', function() {
 });
 
 describe('createSite()', function() {
-	it.skip('creates or updates a site with a home, about and a blog page', function(done) {
+	it('creates or updates a site with a home, about and a blog page', function(done) {
 		var defaultFile = path.join(__dirname,'fixtures/test-site/layouts/default.html');
 		var contentHomeFile = path.join(__dirname,'fixtures/test-site/pages/home.html');
  		var outputHomeFile = path.join(__dirname,'tmp/home.html'); 
  		var expectedHomeFile = path.join(__dirname,'expected/test-site/home.html');
 
- 		var defaultAboutFile = path.join(__dirname,'fixtures/test-site/layouts/defaultAbout.html');
  		var contentAboutFile = path.join(__dirname,'fixtures/test-site/pages/about.html');
  		var outputAboutFile = path.join(__dirname,'tmp/about.html');
  		var expectedAboutFile = path.join(__dirname,'expected/test-site/about.html'); 
+ 		var outputDir = path.join(__dirname, 'tmp');
 
- 		lib.createSite(defaultFile, contentHomeFile, outputHomeFile, defaultAboutFile,
- 		contentAboutFile, outputAboutFile, function(err1) {
+ 		lib.createSite(defaultFile, [contentHomeFile, contentAboutFile], outputDir, function(err1) {
+			if (err1) { throw err1; }
  			lib.readAFile (outputHomeFile, function (err2, outputFileContents) {
  				if (err2) { throw err2; }
  				lib.readAFile (expectedHomeFile, function (err3, expectedFileContents) {

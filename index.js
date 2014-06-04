@@ -1,4 +1,5 @@
 module.exports = {};
+var path = require('path');
 
 var fs = require('fs');
 
@@ -27,10 +28,12 @@ var readAFile = module.exports.readAFile = function(file, cb) {
  * @param {call-back} cb -
  * @param {}  - .
  */
-module.exports.createNewPage = function(file1, file2, file3, cb) {
+var createNewPage = module.exports.createNewPage = function(file1, file2, file3, cb) {
 
 	readAFile(file1, function(err, defaultString) {
+		if (err) { return cb(err); }
 		readAFile(file2, function(err, contentString) {
+			if (err) { return cb(err); }
 		 	var outputString = defaultString.replace('{{ content }}', contentString);
 				fs.writeFile(file3, outputString, function(err) {
 					cb(err);
@@ -39,21 +42,36 @@ module.exports.createNewPage = function(file1, file2, file3, cb) {
 	});
 };
 
-//******************************************************************
-module.exports.createSite = function(file1, file2, file3, file4, file5, file6, cb) {
-
-	readAFile(file1, function(err, defaultString) {
-		readAFile(file2, function(err, contentString) {
-		 	var outputString = defaultString.replace('{{ content }}', contentString);
-			fs.writeFile(file3, outputString, function(err) {
-				cb(err);
-			});
+/**
+ * Create a site from a given template and given content.
+ * 
+ * @function
+ * @param {string} templatePath - A path to the HTML template that structures 
+ * each page. 
+ * @param {array} contentFiles - Array of file paths that include content for 
+ * web pages.
+ * @param {string} outputDir - A path to the directory where output files are
+ * stored. This directory must exist before this function is called. 
+ * @param {function} cb - This cb will be called after site has been generated
+ * with one arg, `err`, an error.
+ */
+module.exports.createSite = function(templatePath, contentFiles, outputDir, cb) {
+	// createNewPage(file1, file2, file3, function(err) {
+	// 	if (err) { return cb(err); }
+	// 	// console.log(defaultString);
+	// 	createNewPage(file4, file5, file6, function(err) {
+	// 		cb(err);
+	// 	});
+	// });
+	contentFiles.forEach(function(file) {
+		var outputFile = path.join(outputDir, path.basename(file));
+		console.log('templatePath: %s', templatePath);
+		console.log('file: %s', file);
+		console.log('outputDir: %s', outputDir);
+		console.log('outputFile: %s', outputFile);
+		createNewPage(templatePath, file, outputFile, function(err) {
+			cb(err);
 		});
+		console.log(file);
 	});
 };
-
-
-
-
-
-
