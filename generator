@@ -3,7 +3,6 @@
 var program = require('commander');
 var lib = require('./index');
 var path = require('path');
-var fs = require('fs');
 
 program
   .version('0.0.1')
@@ -11,6 +10,6 @@ program
   .option('', '')
   .parse(process.argv);
 
-console.log();
-
-// lib.createSite(path.join(program.args[0], '/layouts/default.html'), );
+lib.createSite(path.join(program.args[0], '/layouts/default.html'),
+path.join(program.args[0], '/pages'), program.args[1],
+function(err) {if (err) { throw err; }});
