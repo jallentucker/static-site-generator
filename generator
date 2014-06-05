@@ -1,9 +1,16 @@
 #!/usr/bin/env node
 
 var program = require('commander');
+var lib = require('./index');
+var path = require('path');
+var fs = require('fs');
 
 program
   .version('0.0.1')
   .option('', '')
   .option('', '')
   .parse(process.argv);
+
+console.log();
+
+// lib.createSite(path.join(program.args[0], '/layouts/default.html'), );

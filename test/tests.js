@@ -37,7 +37,7 @@ describe('createNewPage()', function() {
 });
 
 describe('createSite()', function() {
-	it('creates or updates a site with a home, about and a blog page', function(done) {
+	it('creates or updates a site with a home and about page', function(done) {
 		var defaultFile = path.join(__dirname,'fixtures/test-site/layouts/default.html');
 		var contentHomeFile = path.join(__dirname,'fixtures/test-site/pages/home.html');
  		var outputHomeFile = path.join(__dirname,'tmp/home.html'); 
@@ -48,7 +48,9 @@ describe('createSite()', function() {
  		var expectedAboutFile = path.join(__dirname,'expected/test-site/about.html'); 
  		var outputDir = path.join(__dirname, 'tmp');
 
- 		lib.createSite(defaultFile, [contentHomeFile, contentAboutFile], outputDir, function(err1) {
+ 		var contentDir = path.join(__dirname, 'fixtures/test-site/pages');
+
+ 		lib.createSite(defaultFile, contentDir, outputDir, function(err1) {
 			if (err1) { throw err1; }
  			lib.readAFile (outputHomeFile, function (err2, outputFileContents) {
  				if (err2) { throw err2; }

@@ -1,6 +1,5 @@
 module.exports = {};
 var path = require('path');
-
 var fs = require('fs');
 
 /**
@@ -8,7 +7,8 @@ var fs = require('fs');
  *
  * @function
  * @param {string} file - The file to be read.
- * @param {function} cb - This cb will be called after the file has been read.
+ * @param {function} cb - This cb will be called after the file has been read,
+ * with two args: `err`, an error, and `contents`, the contents of the file.
  */
 var readAFile = module.exports.readAFile = function(file, cb) {
 	fs.readFile(file, { encoding: 'utf8' }, function(err, contents) {
@@ -35,10 +35,10 @@ var createNewPage = module.exports.createNewPage = function(file1, file2, file3,
 		readAFile(file2, function(err, contentString) {
 			if (err) { return cb(err); }
 		 	var outputString = defaultString.replace('{{ content }}', contentString);
-				fs.writeFile(file3, outputString, function(err) {
-					cb(err);
-				});
-	  });
+			fs.writeFile(file3, outputString, function(err) {
+				cb(err);
+			});
+		});
 	});
 };
 
@@ -48,26 +48,28 @@ var createNewPage = module.exports.createNewPage = function(file1, file2, file3,
  * @function
  * @param {string} templatePath - A path to the HTML template that structures 
  * each page. 
- * @param {array} contentFiles - Array of file paths that include content for 
+ * @param {string} contentFilesPath - A path to the directory that contains content for 
  * web pages.
  * @param {string} outputDir - A path to the directory where output files are
  * stored. This directory must exist before this function is called. 
  * @param {function} cb - This cb will be called after site has been generated
  * with one arg, `err`, an error.
  */
-module.exports.createSite = function(templatePath, contentFiles, outputDir, cb) {
-	var counter = 0;
-	contentFiles.forEach(function(file) {
-		var outputFile = path.join(outputDir, path.basename(file));
-		console.log('templatePath: %s', templatePath);
-		console.log('file: %s', file);
-		console.log('outputDir: %s', outputDir);
-		console.log('outputFile: %s', outputFile);
-		createNewPage(templatePath, file, outputFile, function(err) {
-			counter += 1;
-			if (counter === contentFiles.length) {
-				cb(err);
-			}
+module.exports.createSite = function(templatePath, contentFilesPath, outputDir, cb) {
+	fs.readdir(contentFilesPath, function(err, files) {
+		var arrayOfFilenames = [];
+		files.forEach(function(file) {
+			arrayOfFilenames.push(path.join(contentFilesPath, file));
+		});
+		var counter = 0;
+		arrayOfFilenames.forEach(function(filePath) {
+			var outputFile = path.join(outputDir, path.basename(filePath));
+			createNewPage(templatePath, filePath, outputFile, function(err) {
+				counter += 1;
+				if (counter === arrayOfFilenames.length) {
+					cb(err);
+				}
+			});
 		});
 	});
 };
